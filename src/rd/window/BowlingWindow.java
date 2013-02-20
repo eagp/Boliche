@@ -1,7 +1,6 @@
 package rd.window;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
@@ -10,7 +9,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
 import javax.swing.JFileChooser;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
