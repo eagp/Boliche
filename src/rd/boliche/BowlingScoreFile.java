@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import javax.imageio.IIOException;
+
 import rd.window.BowlingErrorWindow;
 
 
@@ -26,7 +28,7 @@ public final class BowlingScoreFile
 				this.extracted.add(new Integer(	s));
 			}
 			
-			if(extracted.size() == 0)
+			if(this.extracted.size() == 0)
 				throw new IllegalStateException("no se puede usar un archivo vacio");  //no se le da soporte a 
 			
 			if(this.extracted.size() % 2 != 0) //si falta el segundo tiro de cualquier jugador se asume como 0
@@ -37,9 +39,13 @@ public final class BowlingScoreFile
 			if(this.extracted.size()>2) //si el segundo jugador todavia no a jugado por primera vez no pone su score
 				this.setPlayerTwoScore();
 		}
-		catch(Exception e)
+		catch(IllegalStateException e1)
 		{
-			new BowlingErrorWindow(e.getLocalizedMessage());
+			new BowlingErrorWindow(e1.getLocalizedMessage());
+		}
+		catch(Exception e2)
+		{
+			new BowlingErrorWindow(e2.getLocalizedMessage());
 		}
 	}
 	

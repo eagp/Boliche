@@ -15,17 +15,23 @@ import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 
+import rd.boliche.BowlingScoreFile;
+import rd.boliche.frame.Score;
+import rd.boliche.frame.ScoreFrame;
+
 public class BowlingWindow extends JFrame implements ActionListener
 {
 
 	private JFileChooser chooser = new JFileChooser();
 	JTextPane textPane;
-	private JLabel lblPlayer;
-	private JLabel lblPlayer_1;
+
+	private JTextArea textArea = new JTextArea();
+	private JTextArea textArea_1 = new JTextArea();
 
 	public BowlingWindow() 
 	{
 		super("Bowling Scores");
+		this.setResizable(false);
 		initialize();
 		this.setVisible(true);
 	}
@@ -38,9 +44,15 @@ public class BowlingWindow extends JFrame implements ActionListener
 		
 		JButton btnBrowse = new JButton("Browse");
 		btnBrowse.addActionListener(this);
-		btnBrowse.setActionCommand("Browse");
+		btnBrowse.setActionCommand("BROWSE");
 		btnBrowse.setBounds(306, 27, 117, 25);
 		this.getContentPane().add(btnBrowse);
+		
+		JButton btnStart = new JButton("Start");
+		btnStart.addActionListener(this);
+		btnStart.setActionCommand("START");
+		btnStart.setBounds(306, 64, 117, 25);
+		getContentPane().add(btnStart);
 		
 		JLabel lblFile = new JLabel("File:");
 		lblFile.setBounds(39, 32, 70, 15);
@@ -50,24 +62,54 @@ public class BowlingWindow extends JFrame implements ActionListener
 		textPane.setBounds(77, 27, 217, 25);
 		this.getContentPane().add(textPane);
 		
-		lblPlayer = new JLabel("Player 1:");
+		JLabel lblPlayer = new JLabel("Player 1:");
 		lblPlayer.setBounds(12, 123, 70, 15);
 		this.getContentPane().add(lblPlayer);
 		
-		lblPlayer_1 = new JLabel("Player 2:");
+		JLabel lblPlayer_1 = new JLabel("Player 2:");
 		lblPlayer_1.setBounds(12, 193, 70, 15);
 		this.getContentPane().add(lblPlayer_1);
-	
+		
+		this.textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setBounds(100, 123, 324, 45);
+		getContentPane().add(textArea);
+		
+		this.textArea_1 = new JTextArea();
+		textArea.setEditable(false);
+		textArea_1.setBounds(100, 193, 324, 45);
+		getContentPane().add(textArea_1);
+		
 	}
 
 	public void actionPerformed(ActionEvent e) 
 	{
-		if(e.getActionCommand() == "Browse")
+		if(e.getActionCommand() == "BROWSE")
 		{
 			int val = chooser.showOpenDialog(this);
 			if(val == chooser.APPROVE_OPTION)
 				this.textPane.setText(chooser.getSelectedFile().toString());
 		}
+		
+		if(e.getActionCommand() == "START")
+		{
+			try
+			{
+				ScoreFrame sf = new ScoreFrame(new BowlingScoreFile(new File(this.textPane.getText())));
+				Score [] ss1 = sf.getScoreOne();
+				Score [] ss2 = sf.getScoreTwo();
+				for(Score s1 : ss1)
+					if(s1!=null)
+					this.textArea.append(s1.getFirstScore() + " | " + s1.getSecondScore() + " // ");
+				for(Score s2 : ss2)
+					if(s2!=null)
+					this.textArea_1.append(s2.getFirstScore() + " | " + s2.getSecondScore() + " // ");
+			}
+			catch(Exception e1)
+			{
+				new BowlingErrorWindow(e1.getLocalizedMessage());
+			}
+		}
+		
 	}
-
 }
