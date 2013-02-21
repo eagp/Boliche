@@ -54,6 +54,12 @@ public class BowlingWindow extends JFrame implements ActionListener
 		btnStart.setBounds(306, 64, 117, 25);
 		getContentPane().add(btnStart);
 		
+		JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(this);
+		btnClear.setActionCommand("CLEAR");
+		btnClear.setBounds(100, 263, 117, 25);
+		getContentPane().add(btnClear);
+		
 		JLabel lblFile = new JLabel("File:");
 		lblFile.setBounds(39, 32, 70, 15);
 		this.getContentPane().add(lblFile);
@@ -95,7 +101,8 @@ public class BowlingWindow extends JFrame implements ActionListener
 		{
 			try
 			{
-				ScoreFrame sf = new ScoreFrame(new BowlingScoreFile(new File(this.textPane.getText())));
+				BowlingScoreFile bsf = new BowlingScoreFile(new File(this.textPane.getText()));
+				ScoreFrame sf = new ScoreFrame(bsf);
 				Score [] ss1 = sf.getScoreOne();
 				Score [] ss2 = sf.getScoreTwo();
 				for(Score s1 : ss1)
@@ -105,10 +112,20 @@ public class BowlingWindow extends JFrame implements ActionListener
 					if(s2!=null)
 					this.textArea_1.append(s2.getFirstScore() + " | " + s2.getSecondScore() + " // ");
 			}
-			catch(Exception e1)
+			catch(IllegalStateException e1)
 			{
 				new BowlingErrorWindow(e1.getLocalizedMessage());
 			}
+			catch(Exception e2)
+			{
+				new BowlingErrorWindow(e2.getLocalizedMessage());
+			}
+		}
+		
+		if(e.getActionCommand() == "CLEAR")
+		{
+			this.textArea.setText("");
+			this.textArea_1.setText("");
 		}
 		
 	}

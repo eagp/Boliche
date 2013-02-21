@@ -17,7 +17,7 @@ public final class BowlingScoreFile
 	private ArrayList<Integer> player2 = new ArrayList<Integer>();
 	
 	
-	public BowlingScoreFile(File f)
+	public BowlingScoreFile(File f) throws IllegalStateException
 	{
 		try
 		{
@@ -25,14 +25,16 @@ public final class BowlingScoreFile
 			String s = null;
 			while((s = this.file.readLine()) != null && this.extracted.size()<48) //va llenando la lista extracted del archivo
 			{
+				if(s.length() == 0)
+					throw new IllegalStateException("Archivo Invalido: Linea Vacia");
 				this.extracted.add(new Integer(	s));
 			}
 			
 			if(this.extracted.size() == 0)
 				throw new IllegalStateException("no se puede usar un archivo vacio");  //no se le da soporte a 
 			
-			if(this.extracted.size() % 2 != 0) //si falta el segundo tiro de cualquier jugador se asume como 0
-				this.extracted.add(new Integer(0));
+			if(this.extracted.size() % 2 != 0) //si falta el segundo tiro de cualquier jugador se asume como archivo invalido
+				throw new IllegalStateException("Archivo Invalido: Jugadas Incompletas");
 			
 			if(this.extracted.size()>0)
 				this.setPlayerOneScore();				
@@ -41,11 +43,11 @@ public final class BowlingScoreFile
 		}
 		catch(IllegalStateException e1)
 		{
-			new BowlingErrorWindow(e1.getLocalizedMessage());
+			throw new IllegalStateException(e1.getLocalizedMessage());
 		}
 		catch(Exception e2)
 		{
-			new BowlingErrorWindow(e2.getLocalizedMessage());
+			throw new IllegalStateException("Archivo Invalido!");
 		}
 	}
 	

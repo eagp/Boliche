@@ -1,26 +1,17 @@
 package rd.boliche.frame;
 
-import rd.window.BowlingErrorWindow;
-
-public final class Score 
+public class Score 
 {
-	private int score1;
-	private int score2;
-	private int scoreTotal;
+	protected int score1;
+	protected int score2;
+	protected int scoreTotal;
 	
-	Score(int s1, int s2)
+	Score(int s1, int s2) throws IllegalStateException
 	{
-		try
-		{
-			this.score1 = (s1>=0) ? s1 : 0; //si son negativos se convierten en 0
-			this.score2 = (s2>=0) ? s2 : 0;
-			if(s1+s2>10)
-				throw new IllegalStateException("Numero de puntuacion pasada");
-		}
-		catch(Exception e)
-		{
-			new BowlingErrorWindow(e.getLocalizedMessage());
-		}
+		this.score1 = (s1>=0) ? s1 : 0; //si son negativos se convierten en 0
+		this.score2 = (s2>=0) ? s2 : 0;
+		if(s1+s2>10)
+			throw new IllegalStateException("Numero de puntuacion pasada");
 		this.scoreTotal = s1+s2; 
 	}
 
@@ -44,12 +35,12 @@ public final class Score
 		return this.score2;
 	}
 	
-	public boolean isStrike()
+	public final boolean isStrike()
 	{
 		return (this.score1==10) ? true:false;
 	}
 	
-	public boolean isSpare()
+	public final boolean isSpare()
 	{
 		if(this.score1 != 10 && (this.score1 + this.score2 == 10))
 			return true;
