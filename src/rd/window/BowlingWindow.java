@@ -38,7 +38,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 
 	private void initialize() 
 	{
-		this.setBounds(100, 100, 450, 300);
+		this.setBounds(100, 100, 750, 300);
 		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		
@@ -51,13 +51,13 @@ public class BowlingWindow extends JFrame implements ActionListener
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(this);
 		btnStart.setActionCommand("START");
-		btnStart.setBounds(306, 64, 117, 25);
+		btnStart.setBounds(100, 263, 117, 25);
 		getContentPane().add(btnStart);
 		
 		JButton btnClear = new JButton("Clear");
 		btnClear.addActionListener(this);
 		btnClear.setActionCommand("CLEAR");
-		btnClear.setBounds(100, 263, 117, 25);
+		btnClear.setBounds(229, 263, 117, 25);
 		getContentPane().add(btnClear);
 		
 		JLabel lblFile = new JLabel("File:");
@@ -78,12 +78,12 @@ public class BowlingWindow extends JFrame implements ActionListener
 		
 		this.textArea = new JTextArea();
 		textArea.setEditable(false);
-		textArea.setBounds(100, 123, 324, 45);
+		textArea.setBounds(100, 123, 558, 45);
 		getContentPane().add(textArea);
 		
 		this.textArea_1 = new JTextArea();
 		textArea.setEditable(false);
-		textArea_1.setBounds(100, 193, 324, 45);
+		textArea_1.setBounds(100, 193, 558, 45);
 		getContentPane().add(textArea_1);
 		
 	}
@@ -99,6 +99,8 @@ public class BowlingWindow extends JFrame implements ActionListener
 		
 		if(e.getActionCommand() == "START")
 		{
+			this.textArea.setText("");
+			this.textArea_1.setText("");
 			try
 			{
 				BowlingScoreFile bsf = new BowlingScoreFile(new File(this.textPane.getText()));
@@ -107,10 +109,10 @@ public class BowlingWindow extends JFrame implements ActionListener
 				Score [] ss2 = sf.getScoreTwo();
 				for(Score s1 : ss1)
 					if(s1!=null)
-					this.textArea.append(s1.getFirstScore() + " | " + s1.getSecondScore() + " // ");
+					this.textArea.append(s1.getFirstScore() + " | " + s1.getSecondScore() + " s:" + s1.getTotal() + " // ");
 				for(Score s2 : ss2)
 					if(s2!=null)
-					this.textArea_1.append(s2.getFirstScore() + " | " + s2.getSecondScore() + " // ");
+					this.textArea_1.append(s2.getFirstScore() + " | " + s2.getSecondScore() + " s:" + s2.getTotal() +" // ");
 			}
 			catch(IllegalStateException e1)
 			{
