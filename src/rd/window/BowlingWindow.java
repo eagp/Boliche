@@ -35,7 +35,6 @@ public class BowlingWindow extends JFrame implements ActionListener
 		super("Bowling Scores");
 		this.setResizable(false);
 		initialize();
-		
 		this.setVisible(true);
 	}
 
