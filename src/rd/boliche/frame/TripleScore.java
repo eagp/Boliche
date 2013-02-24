@@ -1,24 +1,19 @@
 package rd.boliche.frame;
 
-public final class FinalScore extends Score 
+public final class TripleScore extends Score 
 {
 
 	private int score3;
 	
-	FinalScore(int s1, int s2) 
-	{
-		super(s1, s2);
-	}
-	
-	FinalScore(int s1, int s2, int s3)
+	TripleScore(int s1, int s2, int s3)
 	{
 		super(s1,s2);
-		this.score3 = s3;
+		this.score3 = (s3>=0 ? s3 : 0);
 	}
 	
-	public void setThirdScore(int score)
+	public int getThirdScore()
 	{
-		this.score3 = (score>=0 ? score : 0);
+		return this.score3;
 	}
 
 	public int getTriplet()
@@ -34,6 +29,11 @@ public final class FinalScore extends Score
 	public boolean isFirstSetSpare()
 	{
 		return (this.isFirstStrike() ? false : this.getTotal() == 10 ? true : false);
+	}
+	
+	public boolean isPerfect()
+	{
+		return (this.score1 == 10 && this.score2 == 10 && this.score3 == 10 ? true:false);
 	}
 	
 }

@@ -15,10 +15,10 @@ public class ScoreFrame
 	{
 		player1LineScore = bf.getPlayerOneScore();
 		player2LineScore = bf.getPlayerTwoScore();
-		setScoreOne();
-		setScoreTwo();	
-		completePlayerOneScore();
-		completePlayerTwoScore();
+		this.setScoreOne();
+		//this.setScoreTwo();
+		this.completePlayerOneScore();
+		//this.completePlayerTwoScore();
 	}
 	
 	private void setScoreOne()
@@ -28,12 +28,12 @@ public class ScoreFrame
 		int limit = this.player1LineScore.size()/2;
 		int it = 0;
 		int i;
-		for(i = 0; i<limit; i++)
+		for(i = 0; i<limit-1; i++)
 		{	
 			if(i<9)
-				this.score1[i] = new Score(this.player1LineScore.get(it), this.player1LineScore.get(it+1));
+				this.score1[i] = new NormalScore(this.player1LineScore.get(it), this.player1LineScore.get(it+1));
 			else
-				this.score1[i] = new FinalScore(this.player1LineScore.get(it), this.player1LineScore.get(it+1),this.player1LineScore.get(it));
+				this.score1[i] = new TripleScore(this.player1LineScore.get(it), this.player1LineScore.get(it+1),this.player1LineScore.get(it+2));
 			it+=2;
 		}
 	}
@@ -48,9 +48,9 @@ public class ScoreFrame
 		for(i = 0; i<limit; i++)
 		{
 			if(i<9)
-				this.score2[i] = new Score(this.player2LineScore.get(it), this.player2LineScore.get(it+1));
+				this.score2[i] = new NormalScore(this.player2LineScore.get(it), this.player2LineScore.get(it+1));
 			else
-				this.score2[i] = new FinalScore(this.player2LineScore.get(it), this.player2LineScore.get(it+1),this.player2LineScore.get(it));
+				this.score2[i] = new TripleScore(this.player2LineScore.get(it), this.player2LineScore.get(it+1),this.player2LineScore.get(it+2));
 			it+=2;
 		}
 	}

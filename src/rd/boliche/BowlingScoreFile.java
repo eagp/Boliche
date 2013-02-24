@@ -4,11 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import javax.imageio.IIOException;
-
-import rd.window.BowlingErrorWindow;
-
-
 public final class BowlingScoreFile
 {
 	private BufferedReader file;
@@ -23,7 +18,7 @@ public final class BowlingScoreFile
 		{
 			this.file = new BufferedReader(new FileReader(f));
 			String s = null;
-			while((s = this.file.readLine()) != null && this.extracted.size()<48) //va llenando la lista extracted del archivo
+			while((s = this.file.readLine()) != null && this.extracted.size()<42) //va llenando la lista extracted del archivo
 			{
 				if(s.length() == 0)
 					throw new IllegalStateException("Archivo Invalido: Linea Vacia");
@@ -81,5 +76,10 @@ public final class BowlingScoreFile
 	public ArrayList<Integer> getPlayerTwoScore()
 	{
 		return this.player2;
+	}
+	
+	public boolean isGameComplete()
+	{
+		return this.extracted.size() == 42 ? true : false;
 	}
 }

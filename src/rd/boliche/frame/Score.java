@@ -1,18 +1,17 @@
 package rd.boliche.frame;
 
-public class Score 
+abstract public class Score 
 {
 	protected int score1;
 	protected int score2;
+	protected int score3;
 	protected int scoreTotal;
 	
-	Score(int s1, int s2) throws IllegalStateException
+	Score(int s1, int s2)
 	{
 		this.score1 = (s1>=0) ? s1 : 0; //si son negativos se convierten en 0
 		this.score2 = (s2>=0) ? s2 : 0;
-		if(s1+s2>10)
-			throw new IllegalStateException("Numero de puntuacion pasada");
-		this.scoreTotal = s1+s2; 
+
 	}
 
 	public void addToTotal(int num)
@@ -35,15 +34,19 @@ public class Score
 		return this.score2;
 	}
 	
-	public final boolean isStrike()
-	{
-		return (this.score1==10) ? true:false;
-	}
+	public abstract boolean isStrike();
 	
-	public final boolean isSpare()
-	{
-		if(this.score1 != 10 && (this.score1 + this.score2 == 10))
-			return true;
-		return false;
-	}
+	public abstract boolean isSpare();
+	
+	public abstract void setThirdScore(int score);
+	
+	public abstract int getThirdScore();
+
+	public abstract int getTriplet();
+	
+	public abstract boolean isFirstStrike();;
+	
+	public abstract boolean isFirstSetSpare();
+	
+	public abstract boolean isPerfect();
 }

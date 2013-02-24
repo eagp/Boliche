@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextPane;
 
 import rd.boliche.BowlingScoreFile;
+import rd.boliche.frame.NormalScore;
+import rd.boliche.frame.TripleScore;
 import rd.boliche.frame.Score;
 import rd.boliche.frame.ScoreFrame;
 
@@ -38,7 +40,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 
 	private void initialize() 
 	{
-		this.setBounds(100, 100, 750, 300);
+		this.setBounds(100, 100, 1000, 300);
 		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		
@@ -78,12 +80,12 @@ public class BowlingWindow extends JFrame implements ActionListener
 		
 		this.textArea = new JTextArea();
 		textArea.setEditable(false);
-		textArea.setBounds(100, 123, 558, 45);
+		textArea.setBounds(100, 123, 880, 45);
 		getContentPane().add(textArea);
 		
 		this.textArea_1 = new JTextArea();
 		textArea.setEditable(false);
-		textArea_1.setBounds(100, 193, 558, 45);
+		textArea_1.setBounds(100, 193, 880, 45);
 		getContentPane().add(textArea_1);
 		
 	}
@@ -103,16 +105,23 @@ public class BowlingWindow extends JFrame implements ActionListener
 			this.textArea_1.setText("");
 			try
 			{
-				BowlingScoreFile bsf = new BowlingScoreFile(new File(this.textPane.getText()));
-				ScoreFrame sf = new ScoreFrame(bsf);
+				ScoreFrame sf = new ScoreFrame(new BowlingScoreFile(new File(this.textPane.getText())));
 				Score [] ss1 = sf.getScoreOne();
-				Score [] ss2 = sf.getScoreTwo();
+				//Score [] ss2 = sf.getScoreTwo();
+				
 				for(Score s1 : ss1)
 					if(s1!=null)
-					this.textArea.append(s1.getFirstScore() + " | " + s1.getSecondScore() + " s:" + s1.getTotal() + " // ");
-				for(Score s2 : ss2)
-					if(s2!=null)
-					this.textArea_1.append(s2.getFirstScore() + " | " + s2.getSecondScore() + " s:" + s2.getTotal() +" // ");
+						if(s1 instanceof NormalScore)
+							this.textArea.append(this.scoreTopRepresentation((NormalScore)s1));
+						else
+							this.textArea.append(this.scoreTopRepresentation((TripleScore)s1));
+				this.textArea.append("\n");
+				for(Score s1 : ss1)
+					if(s1!=null)
+						this.textArea.append(s1.getTotal() + "\t");
+				//for(Score s2 : ss2)
+					//if(s2!=null)
+					//this.textArea_1.append(s2.getFirstScore() + " | " + s2.getSecondScore() + " s:" + s2.getTotal() +" // ");
 			}
 			catch(IllegalStateException e1)
 			{
@@ -130,5 +139,27 @@ public class BowlingWindow extends JFrame implements ActionListener
 			this.textArea_1.setText("");
 		}
 		
+	}
+	
+	private String scoreTopRepresentation(NormalScore f)
+	{
+		if(f.isStrike())
+			return " | X\t";
+		else if(f.isSpare())
+			return f.getFirstScore() + " | /\t";
+		else 
+			return f.getFirstScore() + " | " + f.getSecondScore()+"\t";  
+	}
+	
+	private String scoreTopRepresentation(TripleScore f)
+	{
+		String s = "";
+		if(f.isPerfect())
+			s = "X | X | X";
+		else if(f.isFirstSetSpare())
+			s = f.getFirstScore() + " | / | " + f.getThirdScore();
+		else
+			s = f.getFirstScore() + " | " + f.getSecondScore();  
+		return s;
 	}
 }
