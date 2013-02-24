@@ -53,6 +53,11 @@ public final class BowlingScoreFile
 			this.player1.add(this.extracted.get(i));
 			i++;
 			this.player1.add(this.extracted.get(i));
+			if(this.extracted.size() == 42 && i == 38)
+			{
+				i++;
+				this.player1.add(this.extracted.get(i));
+			}
 			i+=3;
 		}
 	}
@@ -69,6 +74,11 @@ public final class BowlingScoreFile
 			this.player2.add(this.extracted.get(i));
 			i++;
 			this.player2.add(this.extracted.get(i));
+			if(this.extracted.size() == 42 && i == 40)
+			{
+				i++;
+				this.player2.add(this.extracted.get(i));
+			}
 			i+=3;
 		}
 	}

@@ -1,10 +1,9 @@
 package rd.boliche.frame;
 
-abstract public class Score 
+public abstract class Score 
 {
 	protected int score1;
 	protected int score2;
-	protected int score3;
 	protected int scoreTotal;
 	
 	Score(int s1, int s2)
@@ -49,4 +48,6 @@ abstract public class Score
 	public abstract boolean isFirstSetSpare();
 	
 	public abstract boolean isPerfect();
+	
+	public abstract String toString();
 }

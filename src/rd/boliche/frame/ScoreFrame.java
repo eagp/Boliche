@@ -16,9 +16,9 @@ public class ScoreFrame
 		player1LineScore = bf.getPlayerOneScore();
 		player2LineScore = bf.getPlayerTwoScore();
 		this.setScoreOne();
-		//this.setScoreTwo();
+		this.setScoreTwo();
 		this.completePlayerOneScore();
-		//this.completePlayerTwoScore();
+		this.completePlayerTwoScore();
 	}
 	
 	private void setScoreOne()
@@ -26,61 +26,113 @@ public class ScoreFrame
 		if(this.player1LineScore.isEmpty())
 			return;
 		int limit = this.player1LineScore.size()/2;
-		int it = 0;
-		int i;
-		for(i = 0; i<limit-1; i++)
-		{	
-			if(i<9)
+		int it = 0; //para iterar en los array list
+		for(int i = 0; i<limit-1; i++,it+=2)
+			if(i<9 && player1LineScore.get(it) != null && player1LineScore.get(it+1) != null)
 				this.score1[i] = new NormalScore(this.player1LineScore.get(it), this.player1LineScore.get(it+1));
-			else
-				this.score1[i] = new TripleScore(this.player1LineScore.get(it), this.player1LineScore.get(it+1),this.player1LineScore.get(it+2));
-			it+=2;
-		}
+			else if(i == 9 && player1LineScore.get(it) != null && player1LineScore.get(it+1) != null && player1LineScore.get(it+2) != null)
+				this.score1[i] = new FinalScore(this.player1LineScore.get(it), this.player1LineScore.get(it+1),this.player1LineScore.get(it+2));
 	}
 	
 	private void setScoreTwo()
 	{
-		if (this.player2LineScore.isEmpty())
+		if(this.player2LineScore.isEmpty())
 			return;
 		int limit = this.player2LineScore.size()/2;
-		int it = 0;
-		int i;
-		for(i = 0; i<limit; i++)
-		{
-			if(i<9)
+		int it = 0; //para iterar en los array list
+		for(int i = 0; i<limit-1; i++,it+=2)
+			if(i<9 && player2LineScore.get(it) != null && player2LineScore.get(it+1) != null)
 				this.score2[i] = new NormalScore(this.player2LineScore.get(it), this.player2LineScore.get(it+1));
-			else
-				this.score2[i] = new TripleScore(this.player2LineScore.get(it), this.player2LineScore.get(it+1),this.player2LineScore.get(it+2));
-			it+=2;
-		}
+			else if(i == 9 && player2LineScore.get(it) != null && player2LineScore.get(it+1) != null && player2LineScore.get(it+2) != null)
+				this.score2[i] = new FinalScore(this.player2LineScore.get(it), this.player2LineScore.get(it+1),this.player2LineScore.get(it+2));
 	}
 	
 	
 	private void completePlayerOneScore()
 	{
 		int limit = this.player1LineScore.size()/2;
-		for(int i = 0 ; i<limit && i<9 ; i++)
+		for(int i = 0 ; i<limit && i<9 && this.score1[i] != null; i++)
 		{			
 			if(score1[i].isStrike())
-				score1[i].addToTotal(score1[i+1].getTotal() + score1[i+2].getTotal());
-			if(score1[i].isSpare())
-				score1[i].addToTotal(score1[i+1].getTotal() + score1[i+1].getFirstScore());
+				if(score1[i+1].isStrike() && score1[i+1] != null)
+				{
+					score1[i].addToTotal(10 + score1[i+2].getFirstScore());
+					if(i>0)
+						score1[i].addToTotal(score1[i-1].getTotal());
+					continue;
+				}
+				else
+				{
+					if(score1[i+1] != null)
+						score1[i].addToTotal(score1[i+1].getFirstScore() + score1[i+1].getSecondScore());
+					if(i>0)
+						score1[i].addToTotal(score1[i-1].getTotal());
+					continue;
+				}
+			if(score1[i].isSpare() && score1[i+1] != null)
+			{
+				score1[i].addToTotal(score1[i+1].getFirstScore());
+				if(i>0)
+					score1[i].addToTotal(score1[i-1].getTotal());
+				continue;
+			}
 			if(i>0)
 				score1[i].addToTotal(score1[i-1].getTotal());
+		}
+		
+		if(this.score1[8]!= null && this.score1[9]!=null)
+		{
+			if(score1[9].isPerfect())
+				score1[9].addToTotal(score1[9].getTriplet());
+			else if(score1[9].isFirstStrike())
+				score1[9].addToTotal(score1[9].getSecondScore() + score1[9].getThirdScore());
+			else if(score1[9].isFirstSetSpare())
+				score1[9].addToTotal(score1[9].getThirdScore());
+			score1[9].addToTotal(score1[8].getTotal());
 		}
 	}
 	
 	private void completePlayerTwoScore()
 	{
 		int limit = this.player2LineScore.size()/2;
-		for(int i = 0 ; i<limit && i<9 ; i++)
+		for(int i = 0 ; i<limit && i<9 && this.score2[i] != null; i++)
 		{			
 			if(score2[i].isStrike())
-				score2[i].addToTotal(score2[i+1].getTotal() + score2[i+2].getTotal());
-			if(score2[i].isSpare())
-				score2[i].addToTotal(score2[i+1].getTotal() + score2[i+1].getFirstScore());
+				if(score2[i+1].isStrike() && score2[i+1] != null)
+				{
+					score2[i].addToTotal(10 + score2[i+2].getSecondScore());
+					if(i>0)
+						score2[i].addToTotal(score2[i-1].getTotal());
+					continue;
+				}
+				else
+				{
+					if(score2[i+1] != null)
+						score2[i].addToTotal(score2[i+1].getFirstScore() + score2[i+1].getSecondScore());
+					if(i>0)
+						score2[i].addToTotal(score2[i-1].getTotal());
+					continue;
+				}
+			if(score2[i].isSpare() && score2[i+1] != null)
+			{
+				score2[i].addToTotal(score2[i+1].getFirstScore());
+				if(i>0)
+					score2[i].addToTotal(score2[i-1].getTotal());
+				continue;
+			}
 			if(i>0)
 				score2[i].addToTotal(score2[i-1].getTotal());
+		}
+		
+		if(this.score2[8]!= null && this.score2[9]!=null)
+		{
+			if(score2[9].isPerfect())
+				score2[9].addToTotal(10);
+			else if(score2[9].isFirstStrike())
+				score2[9].addToTotal(score2[9].getSecondScore() + score2[9].getThirdScore());
+			else if(score2[9].isFirstSetSpare())
+				score2[9].addToTotal(score2[9].getThirdScore());
+			score2[9].addToTotal(score2[8].getTotal());
 		}
 	}
 	
@@ -93,5 +145,4 @@ public class ScoreFrame
 	{
 		return this.score2;
 	}
-
 }
