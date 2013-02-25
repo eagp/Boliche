@@ -17,8 +17,6 @@ public interface Score
 	
 	public int getThirdScore();
 
-	public int getTriplet();
-	
 	public boolean isFirstStrike();;
 	
 	public boolean isFirstSetSpare();

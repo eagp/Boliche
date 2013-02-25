@@ -60,12 +60,6 @@ public abstract class DualScore implements Score
 	}
 
 	@Override
-	public final int getTriplet() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public final boolean isFirstStrike() {
 		// TODO Auto-generated method stub
 		return false;

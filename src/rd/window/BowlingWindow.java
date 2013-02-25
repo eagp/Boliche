@@ -126,8 +126,11 @@ public class BowlingWindow extends JFrame implements ActionListener
 		{
 			this.textArea.setText("");
 			this.textArea_1.setText("");
-			this.printLim = this.printLim == 20 ? 20: this.printLim +1;
+			if(this.ss1[this.printLim/2] == null || this.ss2[this.printLim/2] == null);
+			else
+				this.printLim = this.printLim == 20 ? 20 : this.printLim + 1;
 			this.scorePrint();	
+			
 		}
 		
 		if(e.getActionCommand() == "START")
@@ -172,8 +175,9 @@ public class BowlingWindow extends JFrame implements ActionListener
 		if(this.printLim == 0)
 			return;
 		
-		for(int i = 0; i<(this.printLim) && ss1[i/2] != null && ss2[i/2] != null ;i++)
+		for(int i = 0; i<this.printLim && ss1[i/2] != null && ss2[i/2] != null ;i++)
 		{
+			
 			if(i%2 == 0)
 			{
 				this.textArea.append(ss1[i/2].toString() + "\t");
@@ -185,7 +189,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 		}
 		this.textArea.append("\n");
 		this.textArea_1.append("\n");
-		for(int i = 0; i<(this.printLim) && ss1[i/2] != null && ss2[i/2] != null;i++)
+		for(int i = 0; i<this.printLim && ss1[i/2] != null && ss2[i/2] != null;i++)
 		{
 			if(i%2 == 0)
 			{

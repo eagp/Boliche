@@ -18,7 +18,7 @@ public abstract class TripleScore implements Score
 		if(!this.isFirstStrike() && !this.isPerfect() && !this.isFirstSetSpare())
 			this.scoreTotal = score1 + score2;
 		else
-			this.scoreTotal = this.getTriplet();
+			this.scoreTotal = this.score1 + this.score2 + this.score3;
 	}
 	
 	public int getFirstScore()
@@ -44,11 +44,6 @@ public abstract class TripleScore implements Score
 	public int getThirdScore()
 	{
 		return this.score3;
-	}
-
-	public int getTriplet()
-	{
-		return this.score1 + this.score2 + this.score3;
 	}
 	
 	public boolean isFirstStrike()
