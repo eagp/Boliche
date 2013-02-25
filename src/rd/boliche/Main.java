@@ -7,6 +7,6 @@ public class Main
 {
 	public static void main(String[] args) 
 	{
-		new BowlingWindow();
+		new BowlingWindow(); // Se llama la Ventana del Score. 
 	}
 }
