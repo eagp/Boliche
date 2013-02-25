@@ -28,8 +28,13 @@ public final class BowlingScoreFile
 			if(this.extracted.size() == 0)
 				throw new IllegalStateException("no se puede usar un archivo vacio");  //no se le da soporte a 
 			
-			if(this.extracted.size() % 2 != 0) //si falta el segundo tiro de cualquier jugador se asume como archivo invalido
+			if(this.extracted.size() % 2 != 0 && this.extracted.size()<36) //si falta el segundo tiro de cualquier jugador se asume como archivo invalido
 				throw new IllegalStateException("Archivo Invalido: Jugadas Incompletas");
+			
+			if(this.extracted.size() > 36 && this.extracted.size() <= 39) //no hay soporte si las jugadas finales estan incompletas
+				throw new IllegalStateException("Archivo Invalido: Jugadas Finales Incompletas para jugador 1");
+			else if(this.extracted.size() > 39 && this.extracted.size() < 42)
+				throw new IllegalStateException("Archivo Invalido: Jugadas Finales Incompletas para jugador 2");
 			
 			if(this.extracted.size()>0)
 				this.setPlayerOneScore();				
@@ -42,7 +47,7 @@ public final class BowlingScoreFile
 		}
 		catch(Exception e2)
 		{
-			throw new IllegalStateException("Archivo Invalido!");
+			throw new IllegalStateException("Archivo Invalido! " + e2.getLocalizedMessage());
 		}
 	}
 	

@@ -18,9 +18,15 @@ public class BowlingWindow extends JFrame implements ActionListener
 {
 
 	private JFileChooser chooser = new JFileChooser();
+	private BowlingScoreFile bsf;
 	private JTextPane textPane;
 	private JTextArea textArea = new JTextArea();
 	private JTextArea textArea_1 = new JTextArea();
+	private JButton btnBack;
+	private JButton btnNext;
+	private int printLim = 0;
+	private Score [] ss1;
+	private Score [] ss2;
 
 	public BowlingWindow() 
 	{
@@ -45,21 +51,22 @@ public class BowlingWindow extends JFrame implements ActionListener
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(this);
 		btnStart.setActionCommand("START");
-		btnStart.setBounds(100, 263, 117, 25);
+		btnStart.setBounds(87, 59, 117, 25);
 		getContentPane().add(btnStart);
 		
 		JButton btnClear = new JButton("Clear");
 		btnClear.addActionListener(this);
 		btnClear.setActionCommand("CLEAR");
-		btnClear.setBounds(229, 263, 117, 25);
+		btnClear.setBounds(213, 59, 117, 25);
 		getContentPane().add(btnClear);
 		
 		JLabel lblFile = new JLabel("File:");
 		lblFile.setBounds(39, 32, 70, 15);
 		this.getContentPane().add(lblFile);
 		
-		textPane = new JTextPane();
-		textPane.setBounds(77, 27, 217, 25);
+		this.textPane = new JTextPane();
+		this.textPane.setBounds(77, 27, 217, 25);
+		this.textPane.setEditable(false);
 		this.getContentPane().add(textPane);
 		
 		JLabel lblPlayer = new JLabel("Player 1:");
@@ -80,6 +87,20 @@ public class BowlingWindow extends JFrame implements ActionListener
 		textArea_1.setBounds(100, 193, 880, 45);
 		getContentPane().add(textArea_1);
 		
+		this.btnBack = new JButton("Back");
+		this.btnBack.setEnabled(false);
+		this.btnBack.addActionListener(this);
+		this.btnBack.setActionCommand("BACK");
+		btnBack.setBounds(100, 250, 117, 25);
+		getContentPane().add(btnBack);
+		
+		this.btnNext = new JButton("Next");
+		this.btnNext.setEnabled(false);
+		this.btnNext.addActionListener(this);
+		this.btnNext.setActionCommand("NEXT");
+		btnNext.setBounds(228, 250, 117, 25);
+		getContentPane().add(btnNext);
+		
 	}
 
 	public void actionPerformed(ActionEvent e) 
@@ -89,35 +110,41 @@ public class BowlingWindow extends JFrame implements ActionListener
 			int val = chooser.showOpenDialog(this);
 			if(val == chooser.APPROVE_OPTION)
 				this.textPane.setText(chooser.getSelectedFile().toString());
+			this.btnNext.setEnabled(false);
+			this.btnBack.setEnabled(false);
+		}
+		
+		if(e.getActionCommand() == "BACK")
+		{
+			this.textArea.setText("");
+			this.textArea_1.setText("");
+			this.printLim = this.printLim == 0 ? 0: this.printLim -1;
+			this.scorePrint();
+		}
+		
+		if(e.getActionCommand() == "NEXT")
+		{
+			this.textArea.setText("");
+			this.textArea_1.setText("");
+			this.printLim = this.printLim == 20 ? 20: this.printLim +1;
+			this.scorePrint();	
 		}
 		
 		if(e.getActionCommand() == "START")
 		{
+			this.printLim = 0;
 			this.textArea.setText("");
 			this.textArea_1.setText("");
 			try
 			{
-				BowlingScoreFile bsf = new BowlingScoreFile(new File(this.textPane.getText()));
+				this.bsf = new BowlingScoreFile(new File(this.textPane.getText()));
 				ScoreFrame sf = new ScoreFrame(bsf);
-				Score [] ss1 = sf.getScoreOne();
-				Score [] ss2 = sf.getScoreTwo();
+				this.ss1 = sf.getScoreOne();
+				this.ss2 = sf.getScoreTwo();
+				this.btnBack.setEnabled(true);
+				this.btnNext.setEnabled(true);
 				
-				for(Score s1 : ss1)
-					if(s1!=null)
-							this.textArea.append(s1.toString() + "\t");
-				this.textArea.append("\n");
-				for(Score s1 : ss1)
-					if(s1!=null)
-						this.textArea.append(s1.getTotal() + "\t");
-
 				
-				for(Score s2 : ss2)
-					if(s2!=null)
-							this.textArea_1.append(s2.toString() + "\t");
-				this.textArea_1.append("\n");
-				for(Score s2 : ss2)
-					if(s2!=null)
-						this.textArea_1.append(s2.getTotal() + "\t");
 				if(!bsf.isGameComplete())
 					new BowlingErrorWindow("Advertencia: No es un juego completo");
 			}
@@ -133,9 +160,41 @@ public class BowlingWindow extends JFrame implements ActionListener
 		
 		if(e.getActionCommand() == "CLEAR")
 		{
+			this.printLim = 0;
 			this.textArea.setText("");
 			this.textArea_1.setText("");
 		}
 		
 	}
+	
+	private void scorePrint()
+	{
+		if(this.printLim == 0)
+			return;
+		
+		for(int i = 0; i<(this.printLim) && ss1[i/2] != null && ss2[i/2] != null ;i++)
+		{
+			if(i%2 == 0)
+			{
+				this.textArea.append(ss1[i/2].toString() + "\t");
+			}
+			else
+			{
+				this.textArea_1.append(ss2[i/2].toString() + "\t");
+			}
+		}
+		this.textArea.append("\n");
+		this.textArea_1.append("\n");
+		for(int i = 0; i<(this.printLim) && ss1[i/2] != null && ss2[i/2] != null;i++)
+		{
+			if(i%2 == 0)
+			{
+				this.textArea.append(ss1[i/2].getTotal()+ "\t");
+			}
+			else
+			{
+				this.textArea_1.append(ss2[i/2].getTotal() + "\t");
+			}
+		}
+	} 
 }

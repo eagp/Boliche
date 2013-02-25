@@ -53,8 +53,8 @@ public class ScoreFrame
 		int limit = this.player1LineScore.size()/2;
 		for(int i = 0 ; i<limit && i<9 && this.score1[i] != null; i++)
 		{			
-			if(score1[i].isStrike())
-				if(score1[i+1].isStrike() && score1[i+1] != null)
+			if(score1[i].isStrike() && score1[i+1] != null)
+				if(score1[i+1].isStrike() && score1[i+2] != null)
 				{
 					score1[i].addToTotal(10 + score1[i+2].getFirstScore());
 					if(i>0)
@@ -89,8 +89,8 @@ public class ScoreFrame
 		int limit = this.player2LineScore.size()/2;
 		for(int i = 0 ; i<limit && i<9 && this.score2[i] != null; i++)
 		{			
-			if(score2[i].isStrike())
-				if(score2[i+1].isStrike() && score2[i+1] != null)
+			if(score2[i].isStrike() && score2[i+1] != null)
+				if(score2[i+1].isStrike() && score2[i+2] != null)
 				{
 					score2[i].addToTotal(10 + score2[i+2].getSecondScore());
 					if(i>0)
@@ -117,15 +117,8 @@ public class ScoreFrame
 		}
 		
 		if(this.score2[8]!= null && this.score2[9]!=null)
-		{
-			if(score2[9].isPerfect())
-				score2[9].addToTotal(10);
-			else if(score2[9].isFirstStrike())
-				score2[9].addToTotal(score2[9].getSecondScore() + score2[9].getThirdScore());
-			else if(score2[9].isFirstSetSpare())
-				score2[9].addToTotal(score2[9].getThirdScore());
-			score2[9].addToTotal(score2[8].getTotal());
-		}
+			if(this.score2[8]!= null && this.score2[9]!=null)
+				score2[9].addToTotal(score2[8].getTotal());
 	}
 	
 	public Score [] getScoreOne()
