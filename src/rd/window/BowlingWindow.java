@@ -15,7 +15,10 @@ import rd.boliche.frame.ScoreFrame;
 
 public class BowlingWindow extends JFrame implements ActionListener
 {
+	// Parte Grafica Del Programa
+	
 	private static final long serialVersionUID = 1L;
+	// Componentes que se utilizan para el Cliente
 	private JFileChooser chooser = new JFileChooser();
 	private BowlingScoreFile bsf;
 	private JTextPane textPane;
@@ -23,6 +26,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 	private JTextArea textArea_1 = new JTextArea();
 	private JButton btnBack;
 	private JButton btnNext;
+	// Variable que se usan para almacenar en memoria los puntos
 	private int printLim = 0;
 	private Score [] ss1;
 	private Score [] ss2;
@@ -104,8 +108,8 @@ public class BowlingWindow extends JFrame implements ActionListener
 
 	public void actionPerformed(ActionEvent e) 
 	{
-		if(e.getActionCommand() == "BROWSE")
-		{
+		if(e.getActionCommand() == "BROWSE") // Funcion del boton que permite leer el archivo
+		{ 
 			int val = chooser.showOpenDialog(this);
 			if(val == JFileChooser.APPROVE_OPTION)
 				this.textPane.setText(chooser.getSelectedFile().toString());
@@ -113,7 +117,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 			this.btnBack.setEnabled(false);
 		}
 		
-		if(e.getActionCommand() == "BACK")
+		if(e.getActionCommand() == "BACK") //Funcion del boton que permite hechar para atras  un score anterior 
 		{
 			this.textArea.setText("");
 			this.textArea_1.setText("");
@@ -121,17 +125,17 @@ public class BowlingWindow extends JFrame implements ActionListener
 			this.scorePrint();
 		}
 		
-		if(e.getActionCommand() == "NEXT")
+		if(e.getActionCommand() == "NEXT")//Funcion del boton que permite avanzar un score para alante.
 		{
 			this.textArea.setText("");
 			this.textArea_1.setText("");
-			try
+			try // Maneja no hechar el limite para alante si el siguiente es null 
 			{
 				if(this.ss1[this.printLim/2] == null || this.ss2[this.printLim/2] == null);
 				else
 					this.printLim = this.printLim == 20 ? 20 : this.printLim + 1;
 			}
-			catch(ArrayIndexOutOfBoundsException err)
+			catch(ArrayIndexOutOfBoundsException err) // imprime normalmente todos los puntos 
 			{
 				this.scorePrint();
 			}
@@ -139,12 +143,12 @@ public class BowlingWindow extends JFrame implements ActionListener
 			
 		}
 		
-		if(e.getActionCommand() == "START")
+		if(e.getActionCommand() == "START") //Funcion del boton que permite calcular los puntos
 		{
 			this.printLim = 0;
 			this.textArea.setText("");
 			this.textArea_1.setText("");
-			try
+			try // Se leer el archivo y se calculan los puntos y se manejan las excepciones
 			{
 				this.bsf = new BowlingScoreFile(new File(this.textPane.getText()));
 				ScoreFrame sf = new ScoreFrame(bsf);
@@ -167,7 +171,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 			}
 		}
 		
-		if(e.getActionCommand() == "CLEAR")
+		if(e.getActionCommand() == "CLEAR") //Funcion del boton que permite borrar lo Text Area
 		{
 			this.printLim = 0;
 			this.textArea.setText("");
@@ -176,7 +180,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 		
 	}
 	
-	private void scorePrint()
+	private void scorePrint() //Funcion del boton que permite imprimir los puntos 
 	{
 		this.textArea.setText("");
 		this.textArea_1.setText("");

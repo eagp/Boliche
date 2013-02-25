@@ -5,22 +5,23 @@ import rd.boliche.BowlingScoreFile;
 
 public class ScoreFrame
 {
-	Score [] score1 = new Score[10];
+	Score [] score1 = new Score[10]; // Arreglo del score Jugador 1 
 	Score [] score2 = new Score[10];
-	ArrayList<Integer> player1LineScore;
+	ArrayList<Integer> player1LineScore; // Arreglo LINEAL del jugador 1
 	ArrayList<Integer> player2LineScore;
 	
-	public ScoreFrame(BowlingScoreFile bf)
-	{
+	public ScoreFrame(BowlingScoreFile bf) // Para sacar los valores del txt
+	{ 
 		player1LineScore = bf.getPlayerOneScore();
 		player2LineScore = bf.getPlayerTwoScore();
+		// Metodos que se llaman
 		this.setScoreOne();
 		this.setScoreTwo();
 		this.completePlayerOneScore();
 		this.completePlayerTwoScore();
 	}
 	
-	private void setScoreOne()
+	private void setScoreOne()  // Llena el score del Jugador 1 
 	{
 		if(this.player1LineScore.isEmpty())
 			return;
@@ -34,7 +35,7 @@ public class ScoreFrame
 	}
 	
 	
-	private void setScoreTwo()
+	private void setScoreTwo() 
 	{
 		if(this.player2LineScore.isEmpty())
 			return;
@@ -48,43 +49,44 @@ public class ScoreFrame
 	}
 	
 	
-	private void completePlayerOneScore()
+	private void completePlayerOneScore() // Completa los puntos finales del jugador 1
 	{
-		int limit = this.player1LineScore.size()/2;
-		for(int i = 0 ; i<limit && i<9 && this.score1[i] != null; i++)
-		{			
-			if(score1[i].isStrike() && score1[i+1] != null)
+		int limit = this.player1LineScore.size()/2; // se Determina el limite para ese jugador, se divide entre dos para tener el tamaño del score
+		for(int i = 0 ; i<limit && i<9 && this.score1[i] != null; i++)   
+		{			// Si el primero es strike y el score que viene no es NULL se aplica
+			if(score1[i].isStrike() && score1[i+1] != null) 
+				// Si el segundo score despues del primer strike es NULL no sigue.
 				if(score1[i+1].isStrike() && score1[i+2] != null)
-				{
+				{ // Si es un strike se le suman 10.
 					score1[i].addToTotal(10 + score1[i+2].getFirstScore());
-					if(i>0)
+					if(i>0) // Se suman los anterioes 
 						score1[i].addToTotal(score1[i-1].getTotal());
 					continue;
 				}
 				else
 				{
-					if(score1[i+1] != null)
+					if(score1[i+1] != null) // Si es strike pero el otro no es strike se le suman los valores del 1 y 2 
 						score1[i].addToTotal(score1[i+1].getFirstScore() + score1[i+1].getSecondScore());
-					if(i>0)
+					if(i>0) // si no es el primer score se suma el score anterior 
 						score1[i].addToTotal(score1[i-1].getTotal());
 					continue;
 				}
-			if(score1[i].isSpare() && score1[i+1] != null)
+			if(score1[i].isSpare() && score1[i+1] != null) //Si es un Spare se suma el primer punto al siguiente Tiro
 			{
 				score1[i].addToTotal(score1[i+1].getFirstScore());
 				if(i>0)
 					score1[i].addToTotal(score1[i-1].getTotal());
 				continue;
 			}
-			if(i>0)
+			if(i>0) 
 				score1[i].addToTotal(score1[i-1].getTotal());
 		}
-		
+		// se suman los ultimos puntos
 		if(this.score1[8]!= null && this.score1[9]!=null)
 			score1[9].addToTotal(score1[8].getTotal());
 	}
 	
-	private void completePlayerTwoScore()
+	private void completePlayerTwoScore() // Funcion Simetrica al Jugador Anterior 
 	{
 		int limit = this.player2LineScore.size()/2;
 		for(int i = 0 ; i<limit && i<9 && this.score2[i] != null; i++)

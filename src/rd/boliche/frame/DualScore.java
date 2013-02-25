@@ -1,19 +1,26 @@
 package rd.boliche.frame;
 
 public abstract class DualScore implements Score 
-{
+{ /*  Clase que implementa la interface Score para el puntaje Final de manera Abstracta*/
+	
+	// Se declara la variable para score 1, 2, total  
 	protected int score1;
 	protected int score2;
 	protected int scoreTotal;
 	
 	DualScore(int s1, int s2) throws IllegalStateException 
 	{
+		/*  Se le da valores a la variable y si la sumatoria es mayor tira una excepcion */
+		
 		this.score1 = (s1>=0) ? s1 : 0; //si son negativos se convierten en 0
 		this.score2 = (s2>=0) ? s2 : 0;
 		if(s1+s2>10)
 			throw new IllegalStateException("Numero de puntuacion pasada");
+		// Si no se cumple, se suma normal.
+		
 		this.scoreTotal = s1+s2; 
 	}
+	/* Se impletaron los metodos que se necesitan para un score de Dos */
 	
 	public int getFirstScore()
 	{
@@ -43,10 +50,14 @@ public abstract class DualScore implements Score
 	}
 	
 	public int getTotal()
+
 	{
 		return this.scoreTotal;
 	}
 	
+	public abstract String toString();// es abstrato por que no se aclara que es un score normal
+	
+	// Metodo que no debe ser Heredados
 	@Override
 	public final void setThirdScore(int score) {
 		// TODO Auto-generated method stub
@@ -77,5 +88,5 @@ public abstract class DualScore implements Score
 		return false;
 	}
 	
-	public abstract String toString();
+	
 }
