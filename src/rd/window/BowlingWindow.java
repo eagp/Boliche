@@ -9,14 +9,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
-
 import rd.boliche.BowlingScoreFile;
 import rd.boliche.frame.Score;
 import rd.boliche.frame.ScoreFrame;
 
 public class BowlingWindow extends JFrame implements ActionListener
 {
-
+	private static final long serialVersionUID = 1L;
 	private JFileChooser chooser = new JFileChooser();
 	private BowlingScoreFile bsf;
 	private JTextPane textPane;
@@ -39,7 +38,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 	private void initialize() 
 	{
 		this.setBounds(100, 100, 1000, 300);
-		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		
 		JButton btnBrowse = new JButton("Browse");
@@ -108,7 +107,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 		if(e.getActionCommand() == "BROWSE")
 		{
 			int val = chooser.showOpenDialog(this);
-			if(val == chooser.APPROVE_OPTION)
+			if(val == JFileChooser.APPROVE_OPTION)
 				this.textPane.setText(chooser.getSelectedFile().toString());
 			this.btnNext.setEnabled(false);
 			this.btnBack.setEnabled(false);
@@ -126,9 +125,16 @@ public class BowlingWindow extends JFrame implements ActionListener
 		{
 			this.textArea.setText("");
 			this.textArea_1.setText("");
-			if(this.ss1[this.printLim/2] == null || this.ss2[this.printLim/2] == null);
-			else
-				this.printLim = this.printLim == 20 ? 20 : this.printLim + 1;
+			try
+			{
+				if(this.ss1[this.printLim/2] == null || this.ss2[this.printLim/2] == null);
+				else
+					this.printLim = this.printLim == 20 ? 20 : this.printLim + 1;
+			}
+			catch(ArrayIndexOutOfBoundsException err)
+			{
+				this.scorePrint();
+			}
 			this.scorePrint();	
 			
 		}
@@ -172,12 +178,12 @@ public class BowlingWindow extends JFrame implements ActionListener
 	
 	private void scorePrint()
 	{
+		this.textArea.setText("");
+		this.textArea_1.setText("");
 		if(this.printLim == 0)
 			return;
-		
 		for(int i = 0; i<this.printLim && ss1[i/2] != null && ss2[i/2] != null ;i++)
 		{
-			
 			if(i%2 == 0)
 			{
 				this.textArea.append(ss1[i/2].toString() + "\t");
