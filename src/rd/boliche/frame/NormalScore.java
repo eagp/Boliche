@@ -7,13 +7,13 @@ public class NormalScore extends DualScore
 	{
 		super(s1, s2);
 	}
-
+	
 	public String toString()
 	{
 		if(this.isStrike())
 			return " | X";
 		else if(this.isSpare())
-			return this.getFirstScore() + " | ";
+			return this.getFirstScore() + " | /";
 		else 
 			return this.getFirstScore() + " | " + this.getSecondScore();  
 	}

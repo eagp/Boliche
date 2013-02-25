@@ -1,53 +1,31 @@
 package rd.boliche.frame;
 
-public abstract class Score 
+public interface Score 
 {
-	protected int score1;
-	protected int score2;
-	protected int scoreTotal;
 	
-	Score(int s1, int s2)
-	{
-		this.score1 = (s1>=0) ? s1 : 0; //si son negativos se convierten en 0
-		this.score2 = (s2>=0) ? s2 : 0;
+	public int getTotal();
+	
+	public int getFirstScore();
+	
+	public int getSecondScore();
+	
+	public boolean isStrike();
+	
+	public boolean isSpare();
+	
+	public void setThirdScore(int score);
+	
+	public int getThirdScore();
 
-	}
-
-	public void addToTotal(int num)
-	{
-		this.scoreTotal += num;
-	}
+	public int getTriplet();
 	
-	public int getTotal()
-	{
-		return this.scoreTotal;
-	}
+	public boolean isFirstStrike();;
 	
-	public int getFirstScore()
-	{
-		return this.score1;
-	}
+	public boolean isFirstSetSpare();
 	
-	public int getSecondScore()
-	{
-		return this.score2;
-	}
+	public boolean isPerfect();
 	
-	public abstract boolean isStrike();
+	public void addToTotal(int num);
 	
-	public abstract boolean isSpare();
-	
-	public abstract void setThirdScore(int score);
-	
-	public abstract int getThirdScore();
-
-	public abstract int getTriplet();
-	
-	public abstract boolean isFirstStrike();;
-	
-	public abstract boolean isFirstSetSpare();
-	
-	public abstract boolean isPerfect();
-	
-	public abstract String toString();
+	public String toString();
 }

@@ -1,13 +1,17 @@
 package rd.boliche.frame;
 
-public abstract class TripleScore extends Score 
+public abstract class TripleScore implements Score 
 {
-
+	protected int score1;
+	protected int score2;
 	protected int score3;
+	protected int scoreTotal;
 	
 	TripleScore(int s1, int s2, int s3) throws IllegalStateException
 	{
-		super(s1,s2);
+		this.score1 = (s1>=0) ? s1 : 0; //si son negativos se convierten en 0
+		this.score2 = (s2>=0) ? s2 : 0;
+		
 		if(this.score1 + this.score2 > 10 && !this.isFirstStrike())
 				throw new IllegalStateException("Puntuacion pasada");
 		this.score3 = (s3>=0 ? s3 : 0);
@@ -15,6 +19,26 @@ public abstract class TripleScore extends Score
 			this.scoreTotal = score1 + score2;
 		else
 			this.scoreTotal = this.getTriplet();
+	}
+	
+	public int getFirstScore()
+	{
+		return this.score1;
+	}
+	
+	public int getSecondScore()
+	{
+		return this.score2;
+	}
+	
+	public void addToTotal(int num)
+	{
+		this.scoreTotal += num;
+	}
+	
+	public void setThirdScore(int score)
+	{
+		this.score3 = score;	
 	}
 	
 	public int getThirdScore()
@@ -41,10 +65,10 @@ public abstract class TripleScore extends Score
 	{
 		return (this.score1 == 10 && this.score2 == 10 && this.score3 == 10 ? true:false);
 	}
-
-	public void setThirdScore(int score) 
+	
+	public int getTotal()
 	{
-		this.score3 = score;
+		return this.scoreTotal;
 	}
 	
 	public abstract String toString();
@@ -63,6 +87,5 @@ public abstract class TripleScore extends Score
 	public final boolean isSpare() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-	
+	}	
 }

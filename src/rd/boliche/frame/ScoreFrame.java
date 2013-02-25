@@ -1,6 +1,5 @@
 package rd.boliche.frame;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import rd.boliche.BowlingScoreFile;
 
@@ -27,12 +26,13 @@ public class ScoreFrame
 			return;
 		int limit = this.player1LineScore.size()/2;
 		int it = 0; //para iterar en los array list
-		for(int i = 0; i<limit-1; i++,it+=2)
-			if(i<9 && player1LineScore.get(it) != null && player1LineScore.get(it+1) != null)
+		for(int i = 0; i<limit && this.player1LineScore.get(it)!=null; i++,it+=2)
+			if(i<9)
 				this.score1[i] = new NormalScore(this.player1LineScore.get(it), this.player1LineScore.get(it+1));
-			else if(i == 9 && player1LineScore.get(it) != null && player1LineScore.get(it+1) != null && player1LineScore.get(it+2) != null)
+			else
 				this.score1[i] = new FinalScore(this.player1LineScore.get(it), this.player1LineScore.get(it+1),this.player1LineScore.get(it+2));
 	}
+	
 	
 	private void setScoreTwo()
 	{
@@ -40,10 +40,10 @@ public class ScoreFrame
 			return;
 		int limit = this.player2LineScore.size()/2;
 		int it = 0; //para iterar en los array list
-		for(int i = 0; i<limit-1; i++,it+=2)
-			if(i<9 && player2LineScore.get(it) != null && player2LineScore.get(it+1) != null)
+		for(int i = 0; i<limit && this.player1LineScore.get(it)!=null; i++,it+=2)
+			if(i<9)
 				this.score2[i] = new NormalScore(this.player2LineScore.get(it), this.player2LineScore.get(it+1));
-			else if(i == 9 && player2LineScore.get(it) != null && player2LineScore.get(it+1) != null && player2LineScore.get(it+2) != null)
+			else
 				this.score2[i] = new FinalScore(this.player2LineScore.get(it), this.player2LineScore.get(it+1),this.player2LineScore.get(it+2));
 	}
 	
@@ -81,15 +81,7 @@ public class ScoreFrame
 		}
 		
 		if(this.score1[8]!= null && this.score1[9]!=null)
-		{
-			if(score1[9].isPerfect())
-				score1[9].addToTotal(score1[9].getTriplet());
-			else if(score1[9].isFirstStrike())
-				score1[9].addToTotal(score1[9].getSecondScore() + score1[9].getThirdScore());
-			else if(score1[9].isFirstSetSpare())
-				score1[9].addToTotal(score1[9].getThirdScore());
 			score1[9].addToTotal(score1[8].getTotal());
-		}
 	}
 	
 	private void completePlayerTwoScore()

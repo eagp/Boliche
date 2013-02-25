@@ -48,17 +48,18 @@ public final class BowlingScoreFile
 	
 	private void setPlayerOneScore()
 	{
-		for(int i = 0; i<this.extracted.size();)
+		for(int i = 0; i<this.extracted.size();i+=3)
 		{
+			if(this.extracted.size() == 42 && this.player1.size() == 18)
+			{
+				this.player1.add(this.extracted.get(36));
+				this.player1.add(this.extracted.get(37));
+				this.player1.add(this.extracted.get(38));
+				return;
+			}
 			this.player1.add(this.extracted.get(i));
 			i++;
 			this.player1.add(this.extracted.get(i));
-			if(this.extracted.size() == 42 && i == 38)
-			{
-				i++;
-				this.player1.add(this.extracted.get(i));
-			}
-			i+=3;
 		}
 	}
 	
@@ -69,17 +70,18 @@ public final class BowlingScoreFile
 	
 	private void setPlayerTwoScore()
 	{
-		for(int i = 2; i<this.extracted.size();)
+		for(int i = 2; i<this.extracted.size();i+=3)
 		{
+			if(this.extracted.size() == 42 && this.player2.size()==18)
+			{
+				this.player2.add(this.extracted.get(39));
+				this.player2.add(this.extracted.get(40));
+				this.player2.add(this.extracted.get(41));
+				break;
+			}
 			this.player2.add(this.extracted.get(i));
 			i++;
 			this.player2.add(this.extracted.get(i));
-			if(this.extracted.size() == 42 && i == 40)
-			{
-				i++;
-				this.player2.add(this.extracted.get(i));
-			}
-			i+=3;
 		}
 	}
 	

@@ -1,23 +1,16 @@
 package rd.window;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JButton;
-import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JFileChooser;
-import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 
 import rd.boliche.BowlingScoreFile;
-import rd.boliche.frame.DualScore;
-import rd.boliche.frame.TripleScore;
 import rd.boliche.frame.Score;
 import rd.boliche.frame.ScoreFrame;
 
@@ -25,8 +18,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 {
 
 	private JFileChooser chooser = new JFileChooser();
-	JTextPane textPane;
-
+	private JTextPane textPane;
 	private JTextArea textArea = new JTextArea();
 	private JTextArea textArea_1 = new JTextArea();
 
@@ -84,7 +76,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 		getContentPane().add(textArea);
 		
 		this.textArea_1 = new JTextArea();
-		textArea.setEditable(false);
+		textArea_1.setEditable(false);
 		textArea_1.setBounds(100, 193, 880, 45);
 		getContentPane().add(textArea_1);
 		
@@ -105,7 +97,8 @@ public class BowlingWindow extends JFrame implements ActionListener
 			this.textArea_1.setText("");
 			try
 			{
-				ScoreFrame sf = new ScoreFrame(new BowlingScoreFile(new File(this.textPane.getText())));
+				BowlingScoreFile bsf = new BowlingScoreFile(new File(this.textPane.getText()));
+				ScoreFrame sf = new ScoreFrame(bsf);
 				Score [] ss1 = sf.getScoreOne();
 				Score [] ss2 = sf.getScoreTwo();
 				
@@ -116,7 +109,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 				for(Score s1 : ss1)
 					if(s1!=null)
 						this.textArea.append(s1.getTotal() + "\t");
-				
+
 				
 				for(Score s2 : ss2)
 					if(s2!=null)
@@ -125,6 +118,8 @@ public class BowlingWindow extends JFrame implements ActionListener
 				for(Score s2 : ss2)
 					if(s2!=null)
 						this.textArea_1.append(s2.getTotal() + "\t");
+				if(!bsf.isGameComplete())
+					new BowlingErrorWindow("Advertencia: No es un juego completo");
 			}
 			catch(IllegalStateException e1)
 			{
