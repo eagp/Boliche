@@ -17,8 +17,9 @@ public abstract class TripleScore implements Score
 		if(this.score1 + this.score2 > 10 && !this.isFirstStrike())
 				throw new IllegalStateException("Puntuacion pasada");
 		 // Si el primero no es strike la suma de los score 1 y 2 no puede dar mas de 10
-		
 		this.score3 = (s3>=0 ? s3 : 0);
+		if(this.score3>10)
+			throw new IllegalStateException("Puntuacion pasada");
 		if(!this.isFirstStrike() && !this.isPerfect() && !this.isFirstSetSpare())
 			this.scoreTotal = score1 + score2;
 		// Si no se cumplen niguno de los metodos anteriores se suma los score 1 y 2
