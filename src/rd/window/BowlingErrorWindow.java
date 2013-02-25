@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 
 public class BowlingErrorWindow extends JOptionPane
 {
-
+	/* Determinar los errores a nivel grafico */
 	private static final long serialVersionUID = 1L;
 
 	public BowlingErrorWindow(String s) 

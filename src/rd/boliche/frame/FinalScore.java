@@ -2,14 +2,14 @@ package rd.boliche.frame;
 
 public class FinalScore extends TripleScore 
 {
-
+	/* Se heredan los score 1, 2, 3 y total */
 	
 	FinalScore(int s1, int s2, int s3) throws IllegalStateException 
 	{
-		super(s1, s2, s3);
+		super(s1, s2, s3); // se utiliza super para llamar al constructor de la clase TripleScore
 	}
 
-	public String toString()
+	public String toString()  // Se define finalmente como se representa un punto final.
 	{
 		if(this.isPerfect())
 			return "X | X | X";

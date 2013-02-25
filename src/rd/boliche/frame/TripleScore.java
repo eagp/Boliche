@@ -2,7 +2,9 @@ package rd.boliche.frame;
 
 public abstract class TripleScore implements Score 
 {
-	protected int score1;
+	/*  Clase que implementa la interface Score para el puntaje Final de manera Abstracta*/
+	
+	protected int score1;  // Se declara la variable para score 1, 2, 3, total   
 	protected int score2;
 	protected int score3;
 	protected int scoreTotal;
@@ -14,13 +16,18 @@ public abstract class TripleScore implements Score
 		
 		if(this.score1 + this.score2 > 10 && !this.isFirstStrike())
 				throw new IllegalStateException("Puntuacion pasada");
+		 // Si el primero no es strike la suma de los score 1 y 2 no puede dar mas de 10
+		
 		this.score3 = (s3>=0 ? s3 : 0);
 		if(!this.isFirstStrike() && !this.isPerfect() && !this.isFirstSetSpare())
 			this.scoreTotal = score1 + score2;
+		// Si no se cumplen niguno de los metodos anteriores se suma los score 1 y 2
 		else
+			// Se suman los 3 si no se cumple lo anterior
 			this.scoreTotal = this.score1 + this.score2 + this.score3;
 	}
 	
+	/* Se impletaron los metodos que se necesitan para un score de Tres */
 	public int getFirstScore()
 	{
 		return this.score1;
@@ -66,10 +73,10 @@ public abstract class TripleScore implements Score
 		return this.scoreTotal;
 	}
 	
-	public abstract String toString();
+	public abstract String toString(); // es abstrato por que no se aclara que es un score de Tres.
 	
 	/*
-	 * metodos que no deben ser heredados
+	 * metodos que no deben ser heredados porque no son propios de un score de Tres 
 	 * */
 	
 	@Override
