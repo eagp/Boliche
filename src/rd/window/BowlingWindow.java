@@ -123,31 +123,38 @@ public class BowlingWindow extends JFrame implements ActionListener
 			if(this.printLim == 1)
 				this.btnBack.setEnabled(false);
 			this.printLim = this.printLim == 0 ? 0: this.printLim -1;
-			if(this.ss2[this.printLim/2] == null)
-				this.printLim--;
 			this.scorePrint();
 		}
 		
 		if(e.getActionCommand() == "NEXT")//Funcion del boton que permite avanzar un score para alante.
 		{
 			this.btnBack.setEnabled(true);
+			if(this.ss2[this.printLim/2] == null)
+			{
+				this.scorePrint();
+				this.btnNext.setEnabled(false);
+			}
 			if(this.printLim == 19) //revisa si llego al final de un juego completo
 			{
 				this.printLim = this.printLim == 20 ? 20 : this.printLim + 1;
 				this.scorePrint();
 				this.btnNext.setEnabled(false);
 			}
-			else
-			{
-				this.printLim = this.printLim == 20 ? 20 : this.printLim + 1;
-				if(this.ss1[this.printLim/2] == null)
-				{	
-					this.scorePrint();
-					this.btnNext.setEnabled(false);
-					return;
-				}
+
+			this.printLim = this.printLim == 20 ? 20 : this.printLim + 1;
+			if(this.ss1[this.printLim/2] == null)
+			{	
 				this.scorePrint();
+				this.btnNext.setEnabled(false);
+				return;
 			}
+			else if(this.ss1[this.printLim/2] != null && this.ss2[this.printLim/2] == null)
+			{
+				this.scorePrint();
+				//this.btnNext.setEnabled(false);
+				return;
+			}
+			this.scorePrint();
 		}
 		
 		if(e.getActionCommand() == "START") //Funcion del boton que permite calcular los puntos
@@ -199,8 +206,6 @@ public class BowlingWindow extends JFrame implements ActionListener
 			else
 				if(this.ss2[i/2] != null)
 					this.textArea_1.append(ss2[i/2].toString() + "\t");
-				else
-					this.btnNext.setEnabled(false); //se manda  a apagar el boton de next en caso de que sea true
 		}
 		this.textArea.append("\n");
 		this.textArea_1.append("\n");
