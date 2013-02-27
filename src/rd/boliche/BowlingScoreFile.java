@@ -26,7 +26,7 @@ public final class BowlingScoreFile
 			{
 				// Si hay una linea vacia en el archivo tira una Excepcion 
 				if(s.length() == 0)
-					throw new IllegalStateException("Archivo Invalido: Linea Vacia");
+					throw new IllegalStateException("Archivo Invalido: Linea Vacia\nPor favor edite bien el archivo");
 				// Si no existe linea vacia se agrega el numero 
 				this.extracted.add(new Integer(	s));
 			}

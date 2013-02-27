@@ -119,28 +119,59 @@ public class BowlingWindow extends JFrame implements ActionListener
 		
 		if(e.getActionCommand() == "BACK") //Funcion del boton que permite hechar para atras  un score anterior 
 		{
-			this.textArea.setText("");
-			this.textArea_1.setText("");
+			this.btnNext.setEnabled(true);
+			if(this.printLim == 1)
+				this.btnBack.setEnabled(false);
 			this.printLim = this.printLim == 0 ? 0: this.printLim -1;
 			this.scorePrint();
 		}
 		
 		if(e.getActionCommand() == "NEXT")//Funcion del boton que permite avanzar un score para alante.
 		{
-			this.textArea.setText("");
-			this.textArea_1.setText("");
-			try // Maneja no hechar el limite para alante si el siguiente es null 
+			this.btnBack.setEnabled(true);
+			if(this.ss2[this.printLim/2] == null)
 			{
-				if(this.ss1[this.printLim/2] == null || this.ss2[this.printLim/2] == null);
-				else
+				if(this.printLim == 0)
+				{
 					this.printLim = this.printLim == 20 ? 20 : this.printLim + 1;
+					this.scorePrint();
+					this.btnNext.setEnabled(false);
+					return;
+				}
+				else
+				{
+					this.scorePrint();
+					this.btnNext.setEnabled(false);
+					return;
+				}
 			}
-			catch(ArrayIndexOutOfBoundsException err) // imprime normalmente todos los puntos 
+			if(this.printLim == 19) //revisa si llego al final de un juego completo
+			{
+				this.printLim = this.printLim == 20 ? 20 : this.printLim + 1;
+				this.scorePrint();
+				this.btnNext.setEnabled(false);
+			}
+			try
+			{
+				this.printLim = this.printLim == 20 ? 20 : this.printLim + 1;
+				if(this.ss1[this.printLim/2] == null)
+				{	
+					this.scorePrint();
+					this.btnNext.setEnabled(false);
+					return;
+				}
+				else if(this.ss1[this.printLim/2] != null && this.ss2[this.printLim/2] == null)
+				{
+					this.scorePrint();
+					//this.btnNext.setEnabled(false);
+					return;
+				}
+				this.scorePrint();
+			}
+			catch(ArrayIndexOutOfBoundsException aie)
 			{
 				this.scorePrint();
 			}
-			this.scorePrint();	
-			
 		}
 		
 		if(e.getActionCommand() == "START") //Funcion del boton que permite calcular los puntos
@@ -154,12 +185,11 @@ public class BowlingWindow extends JFrame implements ActionListener
 				ScoreFrame sf = new ScoreFrame(bsf);
 				this.ss1 = sf.getScoreOne();
 				this.ss2 = sf.getScoreTwo();
-				this.btnBack.setEnabled(true);
 				this.btnNext.setEnabled(true);
 				
 				
 				if(!bsf.isGameComplete())
-					new BowlingErrorWindow("Advertencia: No es un juego completo");
+					new BowlingErrorWindow("Advertencia: No es un juego completo.\nIgual puede continuar");
 			}
 			catch(IllegalStateException e1)
 			{
@@ -186,29 +216,23 @@ public class BowlingWindow extends JFrame implements ActionListener
 		this.textArea_1.setText("");
 		if(this.printLim == 0)
 			return;
-		for(int i = 0; i<this.printLim && ss1[i/2] != null && ss2[i/2] != null ;i++)
+		for(int i = 0; i<this.printLim && this.ss1[i/2] != null;i++)
 		{
 			if(i%2 == 0)
-			{
 				this.textArea.append(ss1[i/2].toString() + "\t");
-			}
 			else
-			{
-				this.textArea_1.append(ss2[i/2].toString() + "\t");
-			}
+				if(this.ss2[i/2] != null)
+					this.textArea_1.append(ss2[i/2].toString() + "\t");
 		}
 		this.textArea.append("\n");
 		this.textArea_1.append("\n");
-		for(int i = 0; i<this.printLim && ss1[i/2] != null && ss2[i/2] != null;i++)
+		for(int i = 0; i<this.printLim && this.ss1[i/2] != null;i++)
 		{
 			if(i%2 == 0)
-			{
 				this.textArea.append(ss1[i/2].getTotal()+ "\t");
-			}
 			else
-			{
-				this.textArea_1.append(ss2[i/2].getTotal() + "\t");
-			}
+				if(this.ss2[i/2] != null)
+					this.textArea_1.append(ss2[i/2].getTotal() + "\t");
 		}
 	} 
 }
