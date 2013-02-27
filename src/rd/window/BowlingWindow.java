@@ -131,9 +131,19 @@ public class BowlingWindow extends JFrame implements ActionListener
 			this.btnBack.setEnabled(true);
 			if(this.ss2[this.printLim/2] == null)
 			{
-				this.scorePrint();
-				this.btnNext.setEnabled(false);
-				return;
+				if(this.printLim == 0)
+				{
+					this.printLim = this.printLim == 20 ? 20 : this.printLim + 1;
+					this.scorePrint();
+					this.btnNext.setEnabled(false);
+					return;
+				}
+				else
+				{
+					this.scorePrint();
+					this.btnNext.setEnabled(false);
+					return;
+				}
 			}
 			if(this.printLim == 19) //revisa si llego al final de un juego completo
 			{
