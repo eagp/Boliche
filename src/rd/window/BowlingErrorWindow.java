@@ -10,6 +10,6 @@ public class BowlingErrorWindow extends JOptionPane
 
 	public BowlingErrorWindow(String s) 
 	{
-		JOptionPane.showMessageDialog(null,s,"Advertencia", JOptionPane.WARNING_MESSAGE,new ImageIcon("src/pony.png"));
+		JOptionPane.showMessageDialog(null,s,"Advertencia", JOptionPane.WARNING_MESSAGE,new ImageIcon(getClass().getResource("/images/pony.png")));
 	}
 }
