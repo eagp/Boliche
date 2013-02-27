@@ -133,6 +133,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 			{
 				this.scorePrint();
 				this.btnNext.setEnabled(false);
+				return;
 			}
 			if(this.printLim == 19) //revisa si llego al final de un juego completo
 			{
@@ -140,21 +141,27 @@ public class BowlingWindow extends JFrame implements ActionListener
 				this.scorePrint();
 				this.btnNext.setEnabled(false);
 			}
-
-			this.printLim = this.printLim == 20 ? 20 : this.printLim + 1;
-			if(this.ss1[this.printLim/2] == null)
-			{	
+			try
+			{
+				this.printLim = this.printLim == 20 ? 20 : this.printLim + 1;
+				if(this.ss1[this.printLim/2] == null)
+				{	
+					this.scorePrint();
+					this.btnNext.setEnabled(false);
+					return;
+				}
+				else if(this.ss1[this.printLim/2] != null && this.ss2[this.printLim/2] == null)
+				{
+					this.scorePrint();
+					//this.btnNext.setEnabled(false);
+					return;
+				}
 				this.scorePrint();
-				this.btnNext.setEnabled(false);
-				return;
 			}
-			else if(this.ss1[this.printLim/2] != null && this.ss2[this.printLim/2] == null)
+			catch(ArrayIndexOutOfBoundsException aie)
 			{
 				this.scorePrint();
-				//this.btnNext.setEnabled(false);
-				return;
 			}
-			this.scorePrint();
 		}
 		
 		if(e.getActionCommand() == "START") //Funcion del boton que permite calcular los puntos
