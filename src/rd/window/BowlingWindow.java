@@ -41,7 +41,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 
 	private void initialize() 
 	{
-		this.setBounds(100, 100, 1000, 300);
+		this.setBounds(100, 100, 1000, 330);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		
@@ -206,6 +206,8 @@ public class BowlingWindow extends JFrame implements ActionListener
 			this.printLim = 0;
 			this.textArea.setText("");
 			this.textArea_1.setText("");
+			this.btnBack.setEnabled(false);
+			this.btnNext.setEnabled(true);
 		}
 		
 	}
