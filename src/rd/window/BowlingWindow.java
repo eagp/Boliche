@@ -26,6 +26,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 	private JTextArea textArea_1 = new JTextArea();
 	private JButton btnBack;
 	private JButton btnNext;
+	private JButton btnClear;
 	// Variable que se usan para almacenar en memoria los puntos
 	private int printLim = 0;
 	private Score [] ss1;
@@ -57,8 +58,9 @@ public class BowlingWindow extends JFrame implements ActionListener
 		btnStart.setBounds(87, 59, 117, 25);
 		getContentPane().add(btnStart);
 		
-		JButton btnClear = new JButton("Clear");
+		this.btnClear = new JButton("Clear");
 		btnClear.addActionListener(this);
+		this.btnClear.setEnabled(false);
 		btnClear.setActionCommand("CLEAR");
 		btnClear.setBounds(213, 59, 117, 25);
 		getContentPane().add(btnClear);
@@ -114,6 +116,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 			if(val == JFileChooser.APPROVE_OPTION)
 				this.textPane.setText(chooser.getSelectedFile().toString());
 			this.btnNext.setEnabled(false);
+			this.btnClear.setEnabled(false);
 			this.btnBack.setEnabled(false);
 		}
 		
@@ -186,7 +189,7 @@ public class BowlingWindow extends JFrame implements ActionListener
 				this.ss1 = sf.getScoreOne();
 				this.ss2 = sf.getScoreTwo();
 				this.btnNext.setEnabled(true);
-				
+				this.btnClear.setEnabled(true);				
 				
 				if(!bsf.isGameComplete())
 					new BowlingErrorWindow("Advertencia: No es un juego completo.\nIgual puede continuar");
